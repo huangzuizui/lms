@@ -11,7 +11,7 @@ class Books {
     if (!author) {
       throw new Error('author is required');
     }
-    if (!amount) {
+    if (amount < 0) {
       throw new Error('amount is required');
     }
     const [book] = this.data.find({ bookName, author });

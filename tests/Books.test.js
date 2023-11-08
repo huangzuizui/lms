@@ -4,12 +4,15 @@ describe('Test create books', () => {
   const books = new Books();
   const book0 = { author: 'Tom', amount: 3, bookName: 'Foo' };
   const book1 = { author: 'Jim', amount: 5, bookName: 'Bar' };
+  const book2 = { author: 'Jimmy', amount: 0, bookName: 'Baz' };
 
   it('should add an auto autoIncrement id when adding new book', () => {
     const returnData = books.add(book0);
     expect(returnData).toEqual({ id: 0, author: 'Tom', inventory: 3, bookName: 'Foo' });
     const returnData1 = books.add(book1);
     expect(returnData1).toEqual({ id: 1, author: 'Jim', inventory: 5, bookName: 'Bar' });
+    const returnData2 = books.add(book2);
+    expect(returnData2).toEqual({ id: 2, author: 'Jimmy', inventory: 0, bookName: 'Baz' });
   });
 
   it('should merge to inventory when adding existing book', () => {
@@ -78,10 +81,10 @@ describe('Test search book', () => {
   });
 
   it('should return empty array when condition do not match', () => {
-    // const returnData = books.search({ author: 'Jimmy' });
-    // expect(returnData).toEqual([]);
-    // const returnData1 = books.search({ bookName: 'Boo' });
-    // expect(returnData1).toEqual([]);
+    const returnData = books.search({ author: 'Jimmy' });
+    expect(returnData).toEqual([]);
+    const returnData1 = books.search({ bookName: 'Boo' });
+    expect(returnData1).toEqual([]);
     const returnData2 = books.search({ k3: 'v3.1' });
     expect(returnData2).toEqual([]);
   });
