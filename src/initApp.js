@@ -1,4 +1,5 @@
 const readline = require('readline');
+const runCommand = require('./runCommand').default;
 
 const initApp = () => {
   const rl = readline.createInterface({
@@ -14,7 +15,7 @@ const initApp = () => {
     if (line.toLowerCase() === 'exit') {
       rl.close();
     } else {
-      console.log(`your inputs: ${line}`);
+      runCommand(line);
       rl.prompt();
     }
   }).on('close', () => {
