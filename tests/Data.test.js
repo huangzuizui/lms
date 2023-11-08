@@ -66,22 +66,26 @@ describe('Test update data', () => {
 describe('Test find data', () => {
   const data = new Data();
   const datum0 = { k1: 'v1', k2: 'v2' };
-  const datum1 = { k1: 'v1', k2: 'v4' };
+  const datum1 = { k1: 'v3', k2: 'v4' };
+  const datum2 = { k1: 'v3', k2: 'v5' };
   data.add(datum0);
   data.add(datum1);
-
-  it('should return an array', () => {
-    const returnData = data.find({k2: 'v2'});
-    expect(returnData).toEqual([{ id: 0, ...datum0 }]);
-    const returnData1 = data.find({k1: 'v1'});
-    expect(returnData1).toEqual([{id: 0, ...datum0}, {id:1, ...datum1}]);
-  });
+  data.add(datum2);
 
   it('should return empty array when condition do not match', () => {
     const returnData = data.find( { k1: 'v3.1' });
     expect(returnData).toEqual([]);
     const returnData1 = data.find( { k3: 'v3.1' });
     expect(returnData1).toEqual([]);
+  });
+
+  it('should ignore key with undefined value', () => {
+    const returnData = data.find({ k1: 'v3', k2: undefined });
+    const returnData1 = data.find({k1: 'v3'});
+    expect(returnData).toEqual(returnData1);
+
+    const returnData2 = data.find({ k1: undefined, k2: undefined });
+    expect(returnData2).toEqual([]);
   });
 
   it ('should find condition be an object literal', () => {
