@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-console.log('hello world');
+const initApp = require('./src/initApp').default;
+initApp();
