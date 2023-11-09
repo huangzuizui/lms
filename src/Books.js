@@ -11,8 +11,8 @@ class Books {
     if (!author) {
       throw new Error('author is required');
     }
-    if (amount < 0) {
-      throw new Error('amount is required');
+    if (!Number.isInteger(amount) || amount < 0) {
+      throw new Error('amount is required and should be a positive integer');
     }
     const [book] = this.data.find({ bookName, author });
     if (!book) {

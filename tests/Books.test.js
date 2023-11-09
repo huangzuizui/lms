@@ -26,10 +26,17 @@ describe('Test create books', () => {
   it('should pass author, bookName, amount at the same time', () => {
     const errorMessageBookName = 'bookName is required';
     const errorMessageAuthor = 'author is required';
-    const errorMessageAmount = 'amount is required';
+    const errorMessageAmount = 'amount is required and should be a positive integer';
     expect(() => books.add({ author: 'Tom', amount: 3 })).toThrowError(errorMessageBookName);
     expect(() => books.add({ bookName: 'Foo', amount: 3 })).toThrowError(errorMessageAuthor);
     expect(() => books.add({ bookName: 'Foo', author: 'Tom' })).toThrowError(errorMessageAmount);
+  });
+
+  it('should pass amount should be a positive integer', () => {
+    const errorMessageAmount = 'amount is required and should be a positive integer';
+    expect(() => books.add({ author: 'Tom', bookName: 'Foo', amount: -3 })).toThrowError(errorMessageAmount);
+    expect(() => books.add({ author: 'Tom', bookName: 'Foo', amount: 3.1 })).toThrowError(errorMessageAmount);
+    expect(() => books.add({ author: 'Tom', bookName: 'Foo', amount: '3' })).toThrowError(errorMessageAmount);
   });
 });
 
