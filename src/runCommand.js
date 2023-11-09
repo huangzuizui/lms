@@ -1,69 +1,46 @@
 const { program } = require('commander');
 const commandLineToArray = require('./utils/commandLineToArray').default;
+const actionManager = require('./actions').default;
 
 const runCommand = (commandLine) => {
   const commandArgs = commandLineToArray(commandLine);
   program.command('register <role> <name> <password>')
   .description('Register a new admin with name and password')
-  .action((role, name, password) => {
-    // todo: register
-    console.log(`${role} ${name} successfully registered.`);
-  });
+  .action(actionManager.run('register'));
 
   program.command('login <name> <password>')
   .description('login with name and password')
-  .action((name, password) => {
-    // todo: login
-    const role = 'Admin';
-    console.log(`${role} ${name} successfully logged in.`);
-  });
+  .action(actionManager.run('login'));
+
+  program.command('logout')
+  .description('logout')
+  .action(actionManager.run('logout'));
 
   program.command('list')
   .description('list all books')
-  .action(() => {
-    // todo: list all books
-    console.log(`Book List:`);
-    console.log(`Clean Code - Robert C. Martin - Inventory: 5`);
-  });
-
+  .action(actionManager.run('listBook'));
 
   program.command('search <bookName> <author>')
   .description('Search book by book name and author')
-  .action((bookName, author) => {
-    // todo: search book
-    const inventory = 5;
-    console.log(`${bookName} - ${author} - Inventory: ${inventory}`);
-  });
+  .action(actionManager.run('searchBook'));
 
   program.command('borrow <bookName> <author>')
   .description('Borrow book by book name and author')
-  .action((bookName, author) => {
-    console.log(`Book "${bookName}" successfully borrowed.`);
-  });
+  .action(actionManager.run('borrowBook'));
 
   program.command('delete <bookName> <author>')
   .description('Delete book by name and author')
-  .action(() => {
-    // todo: delete book
-    console.log(`Cannot delete book "Clean Code" because it is currently borrowed.`);
-  });
+  .action(actionManager.run('deleteBook'));
 
   program.command('return <bookName> <author>')
   .description('Return book by book name and author')
-  .action((bookName, author) => {
-    // todo: return book
-    console.log(`Book "${bookName}" successfully returned.`);
-  });
+  .action(actionManager.run('returnBook'));
 
   program.command('add  <bookName> <author> <amount>')
   .description('Add book inventory by book name and author')
-  .action((bookName, author, amount) => {
-    // todo: add inventory
-    const inventory = 8 + parseInt(amount);
-    console.log(`Book "${bookName}" inventory successfully updated, new inventory:${inventory}`);
-  });
+  .action(actionManager.run('addBook'));
 
-  program.parse(['','', ...commandArgs]);
+  program.parse(['', '', ...commandArgs]);
 }
 
 exports.default = runCommand;
