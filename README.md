@@ -14,8 +14,9 @@ management capabilities and a simple user interaction interface.
 1. Clone this repository to your local machine.
 2. Open the terminal and navigate to the root directory of this project.
 3. Run `npm install` to install all dependencies.
-4. Run `npm link` to link to the global environment.
-5. Run `my_lms` to start the program.
+4. Run `npm test` to run tests of the project.
+5. Run `npm link` to link to the global environment.
+6. Run `my_lms` to start the program.
 
 ## How To Use
 After running `my_lms` command to run the program, you will see the following interface:
