@@ -115,6 +115,11 @@ actionManager.addAction((ctx, next) => {
     return next();
   }
   const [bookName, author] = ctx.args;
+  const [borrowRecord] = ctx.library.borrowRecords.data.find({ userId: ctx.currentUser.id, bookName, author });
+  if (!borrowRecord) {
+    console.log(`Cannot find book "${bookName}" by ${author} in your borrow record`);
+    return;
+  }
   const res = ctx.library.returnBook({ userId: ctx.currentUser.id, bookName, author });
   if (res instanceof Error) {
     console.log(res.message);

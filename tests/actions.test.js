@@ -13,22 +13,40 @@ describe('Test register action', () => {
 
     consoleLogSpy.mockRestore();
   });
+
+  it('should fail if account already exists', () => {
+
+    actionManager.run('register')('admin', 'Tom22', '123');
+
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    actionManager.run('register')('user', 'Tom22', '123');
+    expect(consoleLogSpy).toHaveBeenCalledWith('Account Tom22 already exists');
+
+    consoleLogSpy.mockRestore();
+  })
 });
 
 describe('Test list book action', () => {
   it('should list all books', () => {
     actionManager.run('register')('admin', 'Tom5', '123');
     actionManager.run('login')('Tom5', '123');
+
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    actionManager.run('listBook')();
+    expect(consoleLogSpy).toHaveBeenCalledWith('No book in library');
+    consoleLogSpy.mockClear();
+
     actionManager.run('addBook')('book10', 'author1', '10');
     actionManager.run('addBook')('book20', 'author2', '5');
-    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+
+    consoleLogSpy.mockClear();
     actionManager.run('listBook')();
     expect(consoleLogSpy.mock.calls).toEqual([['Book List:'], ['book10 - author1 - Inventory: 10'], ['book20 - author2 - Inventory: 5']]);
     consoleLogSpy.mockRestore();
   });
 });
 describe('Test login and logout action', () => {
-  it('should success and log registered infomation', () => {
+  it('should success and log registered information', () => {
     actionManager.run('register')('admin', 'Tom1', '123');
     actionManager.run('register')('user', 'Jacky1', '1223');
 
@@ -45,6 +63,13 @@ describe('Test login and logout action', () => {
     actionManager.run('logout')();
     expect(consoleLogSpy).toHaveBeenCalledWith('user Jacky1 successfully logged out.');
 
+    consoleLogSpy.mockRestore();
+  });
+
+  it('should fail if account not exists', () => {
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    actionManager.run('login')('Tom200', '123');
+    expect(consoleLogSpy).toHaveBeenCalledWith('Account not exists');
     consoleLogSpy.mockRestore();
   });
 });
@@ -102,6 +127,30 @@ describe('Test add book action', () => {
     expect(consoleLogSpy).toHaveBeenCalledWith('Book "book2" by author2 added successfully, inventory: 5.');
     consoleLogSpy.mockRestore();
   });
+
+  it('should merge if book already exists', () => {
+    actionManager.run('register')('admin', 'Tom6', '123');
+    actionManager.run('login')('Tom6', '123');
+    actionManager.run('addBook')('book23', 'author3', '10');
+
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    actionManager.run('addBook')('book23', 'author3', '5');
+    expect(consoleLogSpy).toHaveBeenCalledWith('Book "book23" inventory successfully updated, new inventory:15');
+    consoleLogSpy.mockRestore();
+  });
+
+  it('should fail if amount is not a positive integer', () => {
+    actionManager.run('register')('admin', 'Jim7', '123');
+    actionManager.run('login')('Jim7', '123');
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    actionManager.run('addBook')('book12', 'author13', 'abc');
+    expect(consoleLogSpy).toHaveBeenCalledWith('amount is required and should be a positive integer');
+    consoleLogSpy.mockClear();
+
+    actionManager.run('addBook')('book12', 'author13', '-1');
+    expect(consoleLogSpy).toHaveBeenCalledWith('amount is required and should be a positive integer');
+    consoleLogSpy.mockRestore();
+  });
 });
 
 describe('Test search book action', () => {
@@ -120,6 +169,16 @@ describe('Test search book action', () => {
     expect(consoleLogSpy).toHaveBeenCalledWith('book4 - author4 - Inventory: 5');
     consoleLogSpy.mockRestore();
   });
+
+  it('should fail if book is not exist', () => {
+      actionManager.run('register')('admin', 'Tom23', '123');
+    actionManager.run('login')('Tom23', '123');
+
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    actionManager.run('searchBook')('book223', 'author223');
+    expect(consoleLogSpy).toHaveBeenCalledWith('Cannot find book "book223" by author223');
+    consoleLogSpy.mockRestore();
+  })
 });
 
 describe('Test borrow book action', () => {
@@ -139,6 +198,19 @@ describe('Test borrow book action', () => {
 
     actionManager.run('borrowBook')('book6', 'author6');
     expect(consoleLogSpy).toHaveBeenCalledWith('Book "book6" successfully borrowed.');
+    consoleLogSpy.mockRestore();
+  });
+
+  it('should fail if book is not exist', () => {
+    actionManager.run('register')('admin', 'Tom25', '123');
+    actionManager.run('login')('Tom25', '123');
+
+    actionManager.run('register')('user', 'Jacky25', '123');
+    actionManager.run('login')('Jacky25', '123');
+
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    actionManager.run('borrowBook')('book225', 'author225');
+    expect(consoleLogSpy).toHaveBeenCalledWith('Cannot find book book225 - author225');
     consoleLogSpy.mockRestore();
   });
 });
@@ -163,6 +235,20 @@ describe('Test return book action', () => {
 
     actionManager.run('returnBook')('book8', 'author8');
     expect(consoleLogSpy).toHaveBeenCalledWith('Book "book8" successfully returned.');
+    consoleLogSpy.mockRestore();
+  });
+
+  it('should fail if book is not borrowed', () => {
+    actionManager.run('register')('admin', 'Tom12', '123');
+    actionManager.run('login')('Tom12', '123');
+    actionManager.run('addBook')('book12', 'author12', '10');
+
+    actionManager.run('register')('user', 'Jacky12', '123');
+    actionManager.run('login')('Jacky12', '123');
+
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    actionManager.run('returnBook')('book12', 'author12');
+    expect(consoleLogSpy).toHaveBeenCalledWith('Cannot find book "book12" by author12 in your borrow record');
     consoleLogSpy.mockRestore();
   });
 });
