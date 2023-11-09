@@ -7,14 +7,14 @@ class BorrowRecords {
 
   add({ userId, bookName, author }) {
     if (userId === undefined || !bookName || !author) {
-      throw new Error(`Please input userId, bookName and author.`);
+      return new Error(`Please input userId, bookName and author.`);
     }
     return this.data.add({ userId, bookName, author });
   }
 
   remove({ userId, bookName, author } = {}) {
     if (userId === undefined || !bookName || !author) {
-      throw new Error(`Please input userId, bookName and author.`);
+      return new Error(`Please input userId, bookName and author.`);
     }
     const records = this.data.find({ userId, bookName, author });
     if (!records || records.length === 0) {

@@ -6,19 +6,25 @@ class Books {
 
   add({ bookName, author, amount }) {
     if (!bookName) {
-      throw new Error('bookName is required');
+      return new Error('bookName is required');
     }
     if (!author) {
-      throw new Error('author is required');
+      return new Error('author is required');
     }
     if (!Number.isInteger(amount) || amount < 0) {
-      throw new Error('amount is required and should be a positive integer');
+      return new Error('amount is required and should be a positive integer');
     }
     const [book] = this.data.find({ bookName, author });
     if (!book) {
-      return this.data.add({ bookName, author, inventory: amount });
+      return {
+        book: this.data.add({ bookName, author, inventory: amount }),
+        type: 'add',
+      }
     } else {
-      return this.data.updateById(book.id, { inventory: book.inventory + amount });
+      return {
+        book: this.data.updateById(book.id, { inventory: book.inventory + amount }),
+        type: 'update',
+      }
     }
   }
 
@@ -32,10 +38,10 @@ class Books {
 
   remove({ bookName, author }) {
     if (!bookName) {
-      throw new Error('bookName is required');
+      return new Error('bookName is required');
     }
     if (!author) {
-      throw new Error('author is required');
+      return new Error('author is required');
     }
     const [book] = this.data.find({ bookName, author });
     if (!book) {

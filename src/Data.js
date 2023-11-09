@@ -5,7 +5,7 @@ class Data {
   }
 
   add(datum) {
-    if (Object.prototype.toString.call(datum) !== '[object Object]') throw new Error('Data must be an object literal.');
+    if (Object.prototype.toString.call(datum) !== '[object Object]') return new Error('Data must be an object literal.');
 
     const newDatum = { id: this.id++, ...datum };
     this.table.push(newDatum);
@@ -42,7 +42,7 @@ class Data {
   }
 
   find(condition) {
-    if (Object.prototype.toString.call(condition) !== '[object Object]') throw new Error('Condition must be an object literal.');
+    if (Object.prototype.toString.call(condition) !== '[object Object]') return new Error('Condition must be an object literal.');
 
     // remove key with undefined value
     const fixedCondition = Object.entries(condition).reduce((acc, [key, value]) => {

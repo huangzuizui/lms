@@ -13,16 +13,21 @@ describe('Test create data', () => {
 
   it ('should add object literal as data', () => {
     const errorMessage = 'Data must be an object literal.';
-    const addNumberAsData = () => data.add(1);
-    expect(addNumberAsData).toThrowError(errorMessage);
-    const addStringAsData = () => data.add('abc');
-    expect(addStringAsData).toThrowError(errorMessage);
-    const addArrayAsData = () => data.add(['11']);
-    expect(addArrayAsData).toThrowError(errorMessage);
-    const addNullAsData = () => data.add(1);
-    expect(addNullAsData).toThrowError(errorMessage);
-    const addUndefinedAsData = () => data.add();
-    expect(addUndefinedAsData).toThrowError(errorMessage);
+    const addNumberAsData = data.add(1);
+    expect(addNumberAsData).toBeInstanceOf(Error);
+    expect(addNumberAsData.message).toBe(errorMessage);
+    const addStringAsData = data.add('abc');
+    expect(addStringAsData).toBeInstanceOf(Error);
+    expect(addStringAsData.message).toBe(errorMessage);
+    const addArrayAsData = data.add(['11']);
+    expect(addArrayAsData).toBeInstanceOf(Error);
+    expect(addArrayAsData.message).toBe(errorMessage);
+    const addNullAsData = data.add(1);
+    expect(addNullAsData).toBeInstanceOf(Error);
+    expect(addNullAsData.message).toBe(errorMessage);
+    const addUndefinedAsData = data.add();
+    expect(addUndefinedAsData).toBeInstanceOf(Error);
+    expect(addUndefinedAsData.message).toBe(errorMessage);
   });
 });
 
@@ -90,16 +95,21 @@ describe('Test find data', () => {
 
   it ('should find condition be an object literal', () => {
     const errorMessage = 'Condition must be an object literal.';
-    const addNumberAsData = () => data.find(1);
-    expect(addNumberAsData).toThrowError(errorMessage);
-    const addStringAsData = () => data.find('abc');
-    expect(addStringAsData).toThrowError(errorMessage);
-    const addArrayAsData = () => data.find(['11']);
-    expect(addArrayAsData).toThrowError(errorMessage);
-    const addNullAsData = () => data.find(1);
-    expect(addNullAsData).toThrowError(errorMessage);
-    const addUndefinedAsData = () => data.find();
-    expect(addUndefinedAsData).toThrowError(errorMessage);
+    const addNumberAsData = data.find(1);
+    expect(addNumberAsData).toBeInstanceOf(Error);
+    expect(addNumberAsData.message).toBe(errorMessage);
+    const addStringAsData = data.find('abc');
+    expect(addStringAsData).toBeInstanceOf(Error);
+    expect(addStringAsData.message).toBe(errorMessage);
+    const addArrayAsData = data.find(['11']);
+    expect(addArrayAsData).toBeInstanceOf(Error);
+    expect(addArrayAsData.message).toBe(errorMessage);
+    const addNullAsData = data.find(1);
+    expect(addNullAsData).toBeInstanceOf(Error);
+    expect(addNullAsData.message).toBe(errorMessage);
+    const addUndefinedAsData = data.find();
+    expect(addUndefinedAsData).toBeInstanceOf(Error);
+    expect(addUndefinedAsData.message).toBe(errorMessage);
   });
 });
 

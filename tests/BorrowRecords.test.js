@@ -8,9 +8,15 @@ describe('Test add borrowRecords', () => {
   });
 
   it('should verify arguments', () => {
-    expect(() => borrowRecords.add({ userId: 0, bookName: 'JavaScript' })).toThrow('Please input userId, bookName and author.');
-    expect(() => borrowRecords.add({ bookName: 'JavaScript' })).toThrow('Please input userId, bookName and author.');
-    expect(() => borrowRecords.add({ userId: 0 })).toThrow('Please input userId, bookName and author.');
+    const error1 = borrowRecords.add({ userId: 0, bookName: 'JavaScript' });
+    expect(error1).toBeInstanceOf(Error);
+    expect(error1.message).toBe('Please input userId, bookName and author.');
+    const error2 = borrowRecords.add({ bookName: 'JavaScript' });
+    expect(error2).toBeInstanceOf(Error);
+    expect(error2.message).toBe('Please input userId, bookName and author.');
+    const error3 = borrowRecords.add({ userId: 0 });
+    expect(error3).toBeInstanceOf(Error);
+    expect(error3.message).toBe('Please input userId, bookName and author.');
   });
 });
 
@@ -31,9 +37,17 @@ describe('Test remove record', () => {
 
   it('should verify arguments', () => {
     const borrowRecords = new BorrowRecords();
-    expect(() => borrowRecords.remove()).toThrow('Please input userId, bookName and author.');
-    expect(() => borrowRecords.remove({ userId: 0, bookName: 'JavaScript' })).toThrow('Please input userId, bookName and author.');
-    expect(() => borrowRecords.remove({ bookName: 'JavaScript' })).toThrow('Please input userId, bookName and author.');
-    expect(() => borrowRecords.remove({ userId: 0 })).toThrow('Please input userId, bookName and author.');
+    const error1 = borrowRecords.remove();
+    expect(error1).toBeInstanceOf(Error);
+    expect(error1.message).toBe('Please input userId, bookName and author.');
+    const error2 = borrowRecords.remove({ userId: 0, bookName: 'JavaScript' });
+    expect(error2).toBeInstanceOf(Error);
+    expect(error2.message).toBe('Please input userId, bookName and author.');
+    const error3 = borrowRecords.remove({ bookName: 'JavaScript' });
+    expect(error3).toBeInstanceOf(Error);
+    expect(error3.message).toBe('Please input userId, bookName and author.');
+    const error4 = borrowRecords.remove({ userId: 0 });
+    expect(error4).toBeInstanceOf(Error);
+    expect(error4.message).toBe('Please input userId, bookName and author.');
   });
 });

@@ -6,37 +6,52 @@ describe('Test create books', () => {
   const book1 = { author: 'Jim', amount: 5, bookName: 'Bar' };
   const book2 = { author: 'Jimmy', amount: 0, bookName: 'Baz' };
 
-  it('should add an auto autoIncrement id when adding new book', () => {
+  it('should success and add an auto autoIncrement id when adding new book', () => {
     const returnData = books.add(book0);
-    expect(returnData).toEqual({ id: 0, author: 'Tom', inventory: 3, bookName: 'Foo' });
+    expect(returnData).toEqual({ type: 'add', book: { id: 0, author: 'Tom', inventory: 3, bookName: 'Foo' } });
     const returnData1 = books.add(book1);
-    expect(returnData1).toEqual({ id: 1, author: 'Jim', inventory: 5, bookName: 'Bar' });
+    expect(returnData1).toEqual({ type: 'add', book: { id: 1, author: 'Jim', inventory: 5, bookName: 'Bar' } });
     const returnData2 = books.add(book2);
-    expect(returnData2).toEqual({ id: 2, author: 'Jimmy', inventory: 0, bookName: 'Baz' });
+    expect(returnData2).toEqual({ type: 'add', book: { id: 2, author: 'Jimmy', inventory: 0, bookName: 'Baz' } });
   });
 
-  it('should merge to inventory when adding existing book', () => {
+  it('should success and merge to inventory when adding existing book', () => {
     const book3 = { author: 'Jack', amount: 3, bookName: 'Baz' };
     const book4 = { author: 'Jack', amount: 6, bookName: 'Baz' };
     books.add(book3);
     const returnData2 = books.add(book4);
-    expect(returnData2.inventory).toBe(book3.amount + book4.amount);
+    expect(returnData2.book.inventory).toBe(book3.amount + book4.amount);
   });
 
   it('should pass author, bookName, amount at the same time', () => {
     const errorMessageBookName = 'bookName is required';
     const errorMessageAuthor = 'author is required';
     const errorMessageAmount = 'amount is required and should be a positive integer';
-    expect(() => books.add({ author: 'Tom', amount: 3 })).toThrowError(errorMessageBookName);
-    expect(() => books.add({ bookName: 'Foo', amount: 3 })).toThrowError(errorMessageAuthor);
-    expect(() => books.add({ bookName: 'Foo', author: 'Tom' })).toThrowError(errorMessageAmount);
+    const error1 = books.add({ author: 'Tom', amount: 3 });
+    expect(error1).toBeInstanceOf(Error);
+    expect(error1.message).toBe(errorMessageBookName);
+    const error2 = books.add({ bookName: 'Foo', amount: 3 });
+    expect(error2).toBeInstanceOf(Error);
+    expect(error2.message).toBe(errorMessageAuthor);
+    const error3 = books.add({ bookName: 'Foo', author: 'Tom' });
+    expect(error3).toBeInstanceOf(Error);
+    expect(error3.message).toBe(errorMessageAmount);
   });
 
   it('should pass amount should be a positive integer', () => {
     const errorMessageAmount = 'amount is required and should be a positive integer';
-    expect(() => books.add({ author: 'Tom', bookName: 'Foo', amount: -3 })).toThrowError(errorMessageAmount);
-    expect(() => books.add({ author: 'Tom', bookName: 'Foo', amount: 3.1 })).toThrowError(errorMessageAmount);
-    expect(() => books.add({ author: 'Tom', bookName: 'Foo', amount: '3' })).toThrowError(errorMessageAmount);
+    const error1 = books.add({ author: 'Tom', bookName: 'Foo', amount: -3 });
+    expect(error1).toBeInstanceOf(Error);
+    expect(error1.message).toBe(errorMessageAmount);
+    const error2 = books.add({ author: 'Tom', bookName: 'Foo', amount: 3.1 });
+    expect(error2).toBeInstanceOf(Error);
+    expect(error2.message).toBe(errorMessageAmount);
+    const error3 = books.add({ author: 'Tom', bookName: 'Foo', amount: '3' });
+    expect(error3).toBeInstanceOf(Error);
+    expect(error3.message).toBe(errorMessageAmount);
+    const error4 = books.add({ author: 'Tom', bookName: 'Foo', amount: null });
+    expect(error4).toBeInstanceOf(Error);
+    expect(error4.message).toBe(errorMessageAmount);
   });
 });
 
@@ -119,7 +134,11 @@ describe('Test remove books', () => {
   it('should pass author, bookName at the same time', () => {
     const errorMessageBookName = 'bookName is required';
     const errorMessageAuthor = 'author is required';
-    expect(() => books.remove({ author: 'Tom' })).toThrowError(errorMessageBookName);
-    expect(() => books.remove({ bookName: 'Foo' })).toThrowError(errorMessageAuthor);
+    const error1 = books.remove({ author: 'Tom' });
+    expect(error1).toBeInstanceOf(Error);
+    expect(error1.message).toBe(errorMessageBookName);
+    const error2 = books.remove({ bookName: 'Foo' });
+    expect(error2).toBeInstanceOf(Error);
+    expect(error2.message).toBe(errorMessageAuthor);
   });
 });
