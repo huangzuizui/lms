@@ -23,7 +23,7 @@ describe('Test register account', () => {
     accounts.register({ role: 'admin', name: 'Jim', password: '123' });
     const error = accounts.register({ role: 'user', name: 'Jim', password: '321' });
     expect(error).toBeInstanceOf(Error);
-    expect(error.message).toBe('Account already exists');
+    expect(error.message).toBe('Account Jim already exists');
   })
 
   it('should check if account is registered by role user or admin', () => {

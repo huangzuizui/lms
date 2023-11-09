@@ -10,7 +10,7 @@ class Accounts {
       return new Error('Invalid account information');
     }
     if (this.data.find({ name }).length > 0) {
-      return new Error('Account already exists');
+      return new Error(`Account ${name} already exists`);
     }
     if (role !== 'admin' && role !== 'user') {
       return new Error('Invalid account role');
