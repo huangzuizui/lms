@@ -88,4 +88,7 @@ Admin Alice successfully logged in.
 
 $ add "Clean Code" "Robert C. Martin" 3
 Book "Clean Code" inventory successfully updated, new inventory: 8.
+
+$ exit
+see you next time!
 ```
