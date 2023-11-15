@@ -1,4 +1,6 @@
-const ActionManager = require('../src/ActionManager').default;
+// @ts-nocheck
+import ActionManager from '../src/ActionManager';
+
 describe('Test ActionManager', () => {
   it('should success add only functions action', () => {
     const actionManager = new ActionManager();
@@ -16,6 +18,7 @@ describe('Test ActionManager', () => {
     const actionManager = new ActionManager({
       list: [0]
     });
+    // @ts-ignore-begin
     const action1 = (ctx, next) => {
       ctx.list.push(1);
       next();
@@ -35,9 +38,11 @@ describe('Test ActionManager', () => {
     actionManager.run()().then((ctx) => {
       expect(ctx.list).toEqual([0, 1, 2, 3]);
     })
+    // @ts-ignore-end
   });
 
   it('should success remove action', () => {
+    // @ts-ignore-begin
     const actionManager = new ActionManager({
       list: [0]
     });
@@ -61,6 +66,7 @@ describe('Test ActionManager', () => {
     actionManager.run()().then((ctx) => {
       expect(ctx.list).toEqual([0, 1, 3]);
     })
+    // @ts-ignore-end
   });
 
   it('should success run action with args', () => {

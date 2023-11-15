@@ -1,4 +1,5 @@
-const commandLineToArray = require('../src/utils/commandLineToArray').default;
+import commandLineToArray from '../src/utils/commandLineToArray';
+
 describe('Test commandLineToArray', () => {
   it('should return array', () => {
     expect(commandLineToArray('a')).toEqual(['a']);

@@ -1,4 +1,5 @@
-const Data = require('../src/Data').default;
+// @ts-nocheck
+import Data from '../src/Data';
 describe('Test create data', () => {
   const data = new Data();
   const datum0 = { k1: 'v1', k2: 'v2' };
@@ -87,9 +88,7 @@ describe('Test find data', () => {
   it('should ignore key with undefined value', () => {
     const returnData = data.find({ k1: 'v3', k2: undefined });
     const returnData1 = data.find({k1: 'v3'});
-    expect(returnData).toEqual(returnData1);
-
-    const returnData2 = data.find({ k1: undefined, k2: undefined });
+    expect(returnData).toEqual(returnData1);const returnData2 = data.find({ k1: undefined, k2: undefined });
     expect(returnData2).toEqual([]);
   });
 

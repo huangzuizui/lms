@@ -1,17 +1,19 @@
-const compose = require('../src/utils/compose').default;
+// @ts-nocheck
+import compose from '../src/utils/compose';
+
 describe('Test compose', () => {
   it('should compose middleware', () => {
-    const middleware1 = async (ctx, next) => {
+    const middleware1 = async (ctx: { arr: number[] }, next: () => any) => {
       ctx.arr.push(1);
       await next();
       ctx.arr.push(6);
     }
-    const middleware2 = async (ctx, next) => {
+    const middleware2 = async (ctx: { arr: number[] }, next: () => any) => {
       ctx.arr.push(2);
       await next();
       ctx.arr.push(5);
     }
-    const middleware3 = async (ctx, next) => {
+    const middleware3 = async (ctx: { arr: number[] }, next: () => any) => {
       ctx.arr.push(3);
       await next();
       ctx.arr.push(4);
@@ -25,6 +27,7 @@ describe('Test compose', () => {
 
   it('should throw error when middlewares is not an array', () => {
     const errorMessage = 'Middlewares must be an array';
+    
     const error = () => compose();
     expect(error).toThrowError(errorMessage);
     const error1 = () => compose('abc');
@@ -50,37 +53,37 @@ describe('Test compose', () => {
   });
 
   it('should throw error when next() called multiple times', () => {
-    const middleware1 = async (ctx, next) => {
+    const middleware1 = async (ctx: { arr: number[] }, next: () => any) => {
       ctx.arr.push(1);
       await next();
       ctx.arr.push(6);
       await next();
     }
-    const middleware2 = async (ctx, next) => {
+    const middleware2 = async (ctx: { arr: number[] }, next: () => any) => {
       ctx.arr.push(2);
       await next();
       ctx.arr.push(5);
     }
-    const middleware3 = async (ctx, next) => {
+    const middleware3 = async (ctx: { arr: number[] }, next: () => any) => {
       ctx.arr.push(3);
       await next();
       ctx.arr.push(4);
     }
     const ctx = { arr: [] };
     const composed = compose([middleware1, middleware2, middleware3]);
-    composed(ctx).catch((err) => {
+    composed(ctx).catch((err: Error) => {
       expect(err.message).toEqual('next() called multiple times');
     });
   });
 
   it('should success when next() not called', () => {
-    const middleware1 = async (ctx, next) => {
+    const middleware1 = async (ctx: { arr: number[] }, next: () => any) => {
       ctx.arr.push(1);
     }
-    const middleware2 = async (ctx, next) => {
+    const middleware2 = async (ctx: { arr: number[] }, next: () => any) => {
       ctx.arr.push(2);
     }
-    const middleware3 = async (ctx, next) => {
+    const middleware3 = async (ctx: { arr: number[] }, next: () => any) => {
       ctx.arr.push(3);
     }
     const ctx = { arr: [] };

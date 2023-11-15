@@ -1,4 +1,6 @@
-const Accounts = require('../src/Accounts').default;
+// @ts-nocheck
+import Accounts from '../src/Accounts';
+
 describe('Test register account', () => {
   const accounts = new Accounts();
 
@@ -8,14 +10,23 @@ describe('Test register account', () => {
   });
 
   it('should verify arguments', () => {
+
+    const error = accounts.register({});
+    expect(error).toBeInstanceOf(Error);
+
     const error = accounts.register({ role: 'user', password: '321' });
     expect(error).toBeInstanceOf(Error);
+    
     expect(error.message).toBe('Invalid account information');
+    
     const error1 = accounts.register({ password: '321' });
     expect(error1).toBeInstanceOf(Error);
+    
     expect(error1.message).toBe('Invalid account information');
+    
     const error2 = accounts.register({ role: 'user' });
     expect(error2).toBeInstanceOf(Error);
+    
     expect(error2.message).toBe('Invalid account information');
   });
 
@@ -23,12 +34,14 @@ describe('Test register account', () => {
     accounts.register({ role: 'admin', name: 'Jim', password: '123' });
     const error = accounts.register({ role: 'user', name: 'Jim', password: '321' });
     expect(error).toBeInstanceOf(Error);
+    
     expect(error.message).toBe('Account Jim already exists');
   })
 
   it('should check if account is registered by role user or admin', () => {
     const error = accounts.register({ role: 'super', name: 'Jack', password: '321' });
     expect(error).toBeInstanceOf(Error);
+    
     expect(error.message).toBe('Invalid account role');
   });
 });
@@ -44,9 +57,11 @@ describe('Test login account', () => {
   });
 
   it('should verify arguments', () => {
+    
     const error = accounts.login({ name: 'Tom' });
     expect(error).toBeInstanceOf(Error);
     expect(error.message).toBe('Invalid account information');
+    
     const error1 = accounts.login({ password: '321' });
     expect(error1).toBeInstanceOf(Error);
     expect(error1.message).toBe('Invalid account information');

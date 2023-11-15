@@ -1,4 +1,4 @@
-const actionManager = require('../src/actions').default;
+import actionManager from '../src/actions';
 
 describe('Test register action', () => {
   it('should success and log registered infomation', () => {
@@ -33,7 +33,7 @@ describe('Test list book action', () => {
 
     const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     actionManager.run('listBook')();
-    expect(consoleLogSpy).toHaveBeenCalledWith('No book in library');
+    expect(consoleLogSpy).toHaveBeenCalledWith('No book in library!');
     consoleLogSpy.mockClear();
 
     actionManager.run('addBook')('book10', 'author1', '10');

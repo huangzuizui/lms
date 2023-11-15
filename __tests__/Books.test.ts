@@ -1,5 +1,6 @@
-const { default: Data } = require('../src/Data');
-const Books = require('../src/Books').default;
+// @ts-nocheck
+import Books from '../src/Books';
+
 describe('Test create books', () => {
   const books = new Books();
   const book0 = { author: 'Tom', amount: 3, bookName: 'Foo' };

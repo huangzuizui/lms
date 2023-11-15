@@ -1,4 +1,6 @@
-const Library = require('../src/Library').default;
+// @ts-nocheck
+import Library from '../src/Library';
+
 describe('Test borrow book', () => {
   const library = new Library();
   library.books.add({ bookName: 'book1', author: 'author1', amount: 10 });
@@ -43,6 +45,7 @@ describe('Test borrow book', () => {
   it('should borrow book fail if user is not exist', () => {
     const returnData = library.borrowBook({ bookName: 'book1', author: 'author1', userId: 100 });
     expect(returnData).toBeInstanceOf(Error);
+    
     expect(returnData.message).toBe('Cannot find user 100');
   });
 });
@@ -122,6 +125,7 @@ describe('Test delete book', () => {
   it('should delete book fail if book is not exist', () => {
     const returnData = library.deleteBook({ bookName: 'book100', author: 'author4', userId: admin.id });
     expect(returnData).toBeInstanceOf(Error);
+    
     expect(returnData.message).toBe('Cannot find book book100 - author4');
   });
 
